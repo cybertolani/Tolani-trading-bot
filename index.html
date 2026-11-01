@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOLANI CYBER X TRADING BOT</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="brand"><span class="logo">TX</span>
+    <div><b>TOLANI CYBER X</b><small>Trading Bot: paper trading terminal</small></div></div>
+  <div class="clock" id="clock"></div>
+  <div class="status" id="status"><i></i><span>Connecting</span></div>
+</header>
+<div class="tape" id="tape"></div>
+
+<main>
+  <section class="chartCol">
+    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+      <div class="seg" id="tfs"></div>
+      <div class="toggles" id="toggles">
+        <label><input type="checkbox" data-k="ema9" checked>EMA 9</label>
+        <label><input type="checkbox" data-k="ema21" checked>EMA 21</label>
+        <label><input type="checkbox" data-k="ema50" checked>EMA 50</label>
+        <label><input type="checkbox" data-k="bb" checked>Bollinger</label>
+        <label><input type="checkbox" data-k="vol" checked>Volume</label>
+      </div>
+    </div>
+    <div class="charts">
+      <div id="overlay"><p id="overlayMsg">Loading</p><button id="retry" hidden>Retry</button></div>
+      <div id="chart"></div>
+      <div class="paneLabel">RSI 14</div><div id="rsi"></div>
+      <div class="paneLabel">MACD 12, 26, 9</div><div id="macd"></div>
+    </div>
+    <div class="panelHead"><span>Market flow: live trades</span><span id="flowStat" class="muted"></span></div>
+    <div class="flowWrap"><canvas id="flow"></canvas>
+      <div class="legend"><span><i class="dot" style="background:#19d38a"></i>Buy</span><span><i class="dot" style="background:#ff4d4d"></i>Sell</span><span><i class="dot ring"></i>Whale</span></div></div>
+    <div class="panelHead"><span>Execution log</span><span class="muted">newest first</span></div>
+    <div id="log" class="log"></div>
+  </section>
+
+  <aside>
+    <div class="card eq"><span class="lbl">Bot account <em class="badge">PAPER</em></span><b id="eqBig" class="up">$1,000.00</b><div id="eqChart"></div></div>
+    <div class="card"><h3>Market watch</h3><table id="watch"></table></div>
+    <div class="card"><h3>Order book</h3><div id="book" class="muted">Waiting for order book</div></div>
+    <div class="card" id="signalCard">
+      <h3>Analysis signal</h3>
+      <div class="sigRow"><span class="sig HOLD" id="sig">HOLD</span><span id="trend" class="muted"></span></div>
+      <div class="bar"><div id="confBar"></div></div>
+      <div class="muted small" id="confTxt">Waiting for data</div>
+      <div class="levels" id="levels"></div>
+      <ul id="reasons"></ul>
+      <p class="note">Educational analysis only. Indicators describe the past and cannot guarantee any result. Confidence shows how many indicators agree, not the chance of profit.</p>
+    </div>
+
+    <div class="card">
+      <h3>Backtest</h3>
+      <p class="muted small">Replays the BUY/SELL rules on the candles now on the chart (long-only, 1,000 USDT start). Orders fill on the next candle after a signal.</p>
+      <button class="ghost" id="btRun" style="margin:0 0 10px;color:var(--gold)">Run backtest</button>
+      <div id="btOut"></div><div id="btChart"></div>
+      <button class="ghost" id="btAll" style="color:var(--gold)">Compare all: 3 coins x 4 timeframes (1,000 candles each)</button>
+      <div id="btAllOut" class="tableWrap" style="max-height:none"></div>
+    </div>
+
+    <div class="card" id="liveCard">
+      <h3>Real orders <em class="badge" id="liveBadge">OFFLINE</em></h3>
+      <p class="muted small" id="liveInfo">Server not running. Start it with: node server.js, then open http://127.0.0.1:3000</p>
+      <div class="acct" id="liveAcct"></div>
+      <div class="order"><label>Amount (USDT)<input type="number" id="liveAmt" min="1" step="1" value="10"></label>
+        <div class="btns"><button class="buy" id="liveBuy">Real BUY</button><button class="sell" id="liveSell">SELL bot's coins</button></div>
+        <button class="ghost" id="killBtn" style="margin-top:0">Kill switch: OFF</button>
+        <div class="muted small" id="liveMsg"></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Paper trading</h3>
+      <div class="acct" id="acct"></div>
+      <div class="order">
+        <label>Amount (USDT)<input type="number" id="amt" min="1" step="1" value="100"></label>
+        <div class="quick" id="quick"><button data-p="25">25%</button><button data-p="50">50%</button><button data-p="100">Max</button></div>
+        <label class="auto"><input type="checkbox" id="auto"> Auto paper-trade the signal for the coin and timeframe on screen</label>
+        <div class="btns"><button class="buy" id="buyBtn">Buy</button><button class="sell" id="sellBtn">Close position</button></div>
+        <div class="muted small" id="orderMsg">Simulated orders only. A 0.1% fee is applied per side.</div>
+      </div>
+      <h4>Open positions</h4><div class="tableWrap"><table id="posTbl"></table></div>
+      <h4>Trade history</h4><div class="tableWrap"><table id="histTbl"></table></div>
+      <button class="ghost" id="resetBtn">Reset account to 1,000 USDT</button>
+    </div>
+  </aside>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
